@@ -1,12 +1,13 @@
 Summary: Library implementing the Unicode Bidirectional Algorithm
 Name: fribidi
-Version: 1.0.5
+Version: 1.0.7
 Release: 1
 URL: https://github.com/fribidi/fribidi/
 Source: https://github.com//%{name}/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.bz2
 License: LGPLv2+ and UCD
-Group: System Environment/Libraries
 Patch1: 0001-Avoid-compiling-doc-dir.patch
+Patch2: 0002-CVE-2019-18397.patch
+BuildRequires:  meson
 
 %description
 A library to handle bidirectional scripts (for example Hebrew, Arabic),
@@ -25,16 +26,15 @@ FriBidi.
 %prep
 %setup -q -n %{name}-%{version}/%{name}
 %patch1 -p1
+%patch2 -p1
 
 %build
-%autogen --disable-static
-make
-
-%check
-make check
+%meson -Ddocs=false
+%meson_build
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install INSTALL="install -p"
+%meson_install
+
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %post -p /sbin/ldconfig
@@ -42,7 +42,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %postun -p /sbin/ldconfig
 
 %files
-%doc COPYING
+%license COPYING
 %{_bindir}/fribidi
 %{_libdir}/libfribidi.so.*
 
