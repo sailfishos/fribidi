@@ -2,8 +2,8 @@ Summary: Library implementing the Unicode Bidirectional Algorithm
 Name: fribidi
 Version: 1.0.10
 Release: 1
-URL: https://github.com/fribidi/fribidi/
-Source: https://github.com//%{name}/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.bz2
+URL: https://github.com/sailfishos/fribidi
+Source: %{name}-%{version}.tar.bz2
 License: LGPLv2+ and UCD
 BuildRequires:  meson
 
